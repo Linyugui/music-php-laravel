@@ -11,6 +11,10 @@ use App\Helpers\Urllib;
 
 class TestController extends Controller
 {
+    public function getTest(){
+        return 1;
+    }
+
     public function getTestUrlLib()
     {
         $url = 'http://www.baidu.com';
