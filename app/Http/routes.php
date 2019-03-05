@@ -36,4 +36,5 @@ Route::controller('/test', 'TestController');
 Route::controller('/user', 'UserController');
 Route::controller('/music', 'MusicController');
 Route::controller('/song', 'SongController');
+Route::controller('/album', 'AlbumController');
 
