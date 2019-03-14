@@ -48,7 +48,6 @@ class AlbumController extends Controller
         }
     }
 
-
     public function getAllLoveAlbum(Request $request){
         $rules = [
             'user_id' => 'int',
@@ -71,6 +70,7 @@ class AlbumController extends Controller
     public function getLoveAlbum(Request $request){
         $rules = [
             'user_id' => 'int',
+            'limit' =>  'int'
         ];
         $objData = $request->only(array_keys($rules));
         try {

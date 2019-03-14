@@ -52,7 +52,6 @@ class SongController extends Controller
         }
     }
 
-
     public function getAllLoveSong(Request $request){
         $rules = [
             'user_id' => 'int',
@@ -74,15 +73,20 @@ class SongController extends Controller
 
     public function getLoveSong(Request $request){
         $rules = [
-            'user_id' => 'int',
+            'user_id'   => 'int',
+            'limit'     => 'int',
         ];
         $objData = $request->only(array_keys($rules));
+        $limit = $objData['limit']||1000;
         try {
             $res = SongModel::query()
-                ->where('user_id',$objData['user_id'])
-                ->get();
+                ->where('user_id',$objData['user_id']);
+            $count = $res->count();
 
-            Util::ApiResponse($res, true, 0, '获取收藏歌曲成功');
+
+            $res = $res->take($limit)->get();
+
+            Util::ApiResponse($res, true, $count, '获取收藏歌曲成功');
         } catch (\Exception $e) {
             Util::ApiResponse([], false, 0, Util::getExceptionMessage($e));
         }
