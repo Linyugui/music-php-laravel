@@ -73,18 +73,20 @@ class SongController extends Controller
 
     public function getLoveSong(Request $request){
         $rules = [
-            'user_id'   => 'int',
-            'limit'     => 'int',
+            'user_id'   =>  'int',
+            'limit'     =>  'int',
+            'skip'      =>  'int',
         ];
         $objData = $request->only(array_keys($rules));
-        $limit = $objData['limit']||1000;
+        $limit = isset($objData['limit'])?$objData['limit']:1000;
+        $skip = isset($objData['skip'])?$objData['skip']:0;
         try {
             $res = SongModel::query()
                 ->where('user_id',$objData['user_id']);
             $count = $res->count();
-
-
-            $res = $res->take($limit)->get();
+            $res = $res->skip($skip)
+                ->take($limit)
+                ->get();
 
             Util::ApiResponse($res, true, $count, '获取收藏歌曲成功');
         } catch (\Exception $e) {
