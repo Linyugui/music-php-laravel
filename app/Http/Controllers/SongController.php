@@ -21,6 +21,7 @@ class SongController extends Controller
             'album_name' => 'string',
             'artist_name' => 'string',
             'song_name' => 'string',
+            'st' => 'int'
         ];
         $objData = $request->only(array_keys($rules));
         try {
@@ -35,9 +36,6 @@ class SongController extends Controller
         $rules = [
             'user_id' => 'int',
             'song_id' => 'int',
-            'album_name' => 'string',
-            'artist_name' => 'string',
-            'song_name' => 'string',
         ];
         $objData = $request->only(array_keys($rules));
         try {
@@ -71,15 +69,15 @@ class SongController extends Controller
         }
     }
 
-    public function getLoveSong(Request $request){
+    public function getLoveSongDetail(Request $request){
         $rules = [
             'user_id'   =>  'int',
             'limit'     =>  'int',
             'skip'      =>  'int',
         ];
         $objData = $request->only(array_keys($rules));
-        $limit = isset($objData['limit'])?$objData['limit']:1000;
-        $skip = isset($objData['skip'])?$objData['skip']:0;
+        $limit = Util::issetValue($objData,'limit',1000);
+        $skip = Util::issetValue($objData,'skip',0);
         try {
             $res = SongModel::query()
                 ->where('user_id',$objData['user_id']);

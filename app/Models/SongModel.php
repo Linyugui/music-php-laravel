@@ -13,6 +13,7 @@ class SongModel extends Model
         'album_name',
         'artist_name',
         'song_name',
+        'st'
     ];
    
 }

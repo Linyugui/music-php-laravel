@@ -94,36 +94,6 @@ class UserController extends Controller
         }
     }
 
-    public function getU(Request $request)
-    {
-        $tmp = "{\"session_key\":\"HyJ98\\/Sq7d1DQmxXaVc+2w==\",\"openid\":\"o_kGA4rHeXKUOwWcAF8-OSjtkV6k\"}";
-        $tmp = json_decode($tmp, true);
-        return $tmp;
-    }
-
-    public function getTest()
-    {
-        $rules = [
-            'FK_collector_type_id' => 'integer',
-            'name_ext' => 'string',
-            'FK_staff_id' => 'integer',
-            'FK_tag_id' => 'integer'
-        ];
-
-        $objData = $this->request->only(array_keys($rules));
-        $department_id = $this->getMerchantFromRequest()->id;
-        $pages = $this->_paginationRule;
-        try {
-            Util::checkInputData($objData, $rules);
-
-            list($repsonse, $count) = Collector::getCollectorList($objData, $department_id, $pages);
-
-            $this->ApiResponse($repsonse, true, $count, '列表获取成功！！');
-        } catch (\Exception $e) {
-            Util::WriteLog($e);
-            $this->ApiResponse([], false, 0, Util::getExceptionMessage($e));
-        }
-    }
 
 
     /**
