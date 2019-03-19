@@ -80,6 +80,14 @@ class SongController extends Controller
         $skip = Util::issetValue($objData,'skip',0);
         try {
             $res = SongModel::query()
+                ->select(
+                    'song_id as id',
+                    'song_name as name',
+                    'album_name',
+                    'user_id',
+                    'artist_name',
+                    'st'
+                )
                 ->where('user_id',$objData['user_id']);
             $count = $res->count();
             $res = $res->skip($skip)
