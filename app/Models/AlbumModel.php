@@ -11,7 +11,7 @@ class AlbumModel extends Model
         'user_id',
         'album_id',
         'album_name',
-        'album_picurl',
+        'picurl',
         'artist_name',
     ];
    

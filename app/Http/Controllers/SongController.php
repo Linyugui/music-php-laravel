@@ -21,7 +21,8 @@ class SongController extends Controller
             'album_name' => 'string',
             'artist_name' => 'string',
             'song_name' => 'string',
-            'st' => 'int'
+            'st' => 'int',
+            'picUrl' => 'string'
         ];
         $objData = $request->only(array_keys($rules));
         try {
@@ -81,14 +82,17 @@ class SongController extends Controller
         try {
             $res = SongModel::query()
                 ->select(
+                    'updated_at',
                     'song_id as id',
                     'song_name as name',
                     'album_name',
                     'user_id',
                     'artist_name',
-                    'st'
+                    'st',
+                    'picUrl'
                 )
-                ->where('user_id',$objData['user_id']);
+                ->where('user_id',$objData['user_id'])
+                ->orderBy('updated_at','desc');
             $count = $res->count();
             $res = $res->skip($skip)
                 ->take($limit)

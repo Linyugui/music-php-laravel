@@ -15,7 +15,7 @@ class AlbumController extends Controller
             'user_id' => 'int',
             'album_id' => 'int',
             'album_name' => 'string',
-            'album_picurl' => 'string',
+            'picurl' => 'string',
             'artist_name' => 'string',
         ];
         $objData = $request->only(array_keys($rules));
@@ -31,9 +31,6 @@ class AlbumController extends Controller
         $rules = [
             'user_id' => 'int',
             'album_id' => 'int',
-            'album_name' => 'string',
-            'album_picurl' => 'string',
-            'artist_name' => 'string',
         ];
         $objData = $request->only(array_keys($rules));
         try {
@@ -70,15 +67,29 @@ class AlbumController extends Controller
     public function getLoveAlbum(Request $request){
         $rules = [
             'user_id' => 'int',
-            'limit' =>  'int'
+            'limit'     =>  'int',
+            'skip'      =>  'int',
         ];
         $objData = $request->only(array_keys($rules));
+        $limit = Util::issetValue($objData,'limit',1000);
+        $skip = Util::issetValue($objData,'skip',0);
         try {
             $res = AlbumModel::query()
+                ->select(
+                    'updated_at',
+                    'album_id as id',
+                    'album_name as name',
+                    'user_id',
+                    'artist_name',
+                    'picUrl'
+                )
                 ->where('user_id',$objData['user_id'])
+                ->orderBy('updated_at','desc');
+            $count = $res->count();
+            $res = $res->skip($skip)
+                ->take($limit)
                 ->get();
-
-            Util::ApiResponse($res, true, 0, '获取收藏专辑成功');
+            Util::ApiResponse($res, true, $count, '获取收藏专辑成功');
         } catch (\Exception $e) {
             Util::ApiResponse([], false, 0, Util::getExceptionMessage($e));
         }
