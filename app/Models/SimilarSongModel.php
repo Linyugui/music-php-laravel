@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SongModel extends Model
+class SimilarSongModel extends Model
 {
-    protected $table = 'love_song';
+    protected $table = 'similar_song';
     protected $fillable = [
         'user_id',
         'song_id',

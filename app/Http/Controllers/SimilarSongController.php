@@ -12,7 +12,7 @@ use App\Helpers\Urllib;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class SongController extends Controller
+class SimilarSongController extends Controller
 {
     public function getAddLoveSong(Request $request){
         $rules = [
