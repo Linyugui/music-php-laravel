@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SimilarSongModel;
-use App\Models\SongModel;
-use App\Models\UserModel;
+use App\Models\PersonalizedPlaylistModel;
 use Illuminate\Http\Request;
 
 use DB;
@@ -13,7 +11,7 @@ use App\Helpers\Urllib;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
-class SimilarSongController extends Controller
+class PersonalizedPlaylistController extends Controller
 {
     public function getDailySimilarSong(Request $request)
     {
@@ -32,10 +30,12 @@ class SimilarSongController extends Controller
     }
 
 
-    public function getSimilarSong(Request $request)
+    public function getPersonalizedPlaylist(Request $request)
     {
-        list($res, $list) = SimilarSongModel::generateDailySimilarSong(20, 2, 20);
+        list($res, $list) = PersonalizedPlaylistModel::generateDailyPersonalizedPlaylist();
+
     }
+
 
 
 }

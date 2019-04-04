@@ -37,4 +37,6 @@ Route::controller('/user', 'UserController');
 Route::controller('/music', 'MusicController');
 Route::controller('/song', 'SongController');
 Route::controller('/album', 'AlbumController');
+Route::controller('/similarsong', 'SimilarSongController');
+Route::controller('/personalized', 'PersonalizedPlaylistController');
 

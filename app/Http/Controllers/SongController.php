@@ -34,6 +34,11 @@ class SongController extends Controller
         }
     }
 
+    /***
+     * @param Request $request
+     * 删除单首收藏的歌曲
+     *
+     */
     public function getDelLoveSong(Request $request){
         $rules = [
             'user_id' => 'int',
@@ -46,6 +51,29 @@ class SongController extends Controller
                 ->where('song_id',$objData['song_id'])
                 ->first();
             $res->delete();
+            Util::ApiResponse($res, true, 0, '取消收藏成功');
+        } catch (\Exception $e) {
+            Util::ApiResponse([], false, 0, Util::getExceptionMessage($e));
+        }
+    }
+
+    /***
+     * @param Request $request
+     * 删除多首收藏的歌曲
+     */
+    public function getDelLoveSongs(Request $request){
+        $rules = [
+            'user_id' => 'int',
+            'song_id' => 'string',
+        ];
+        $objData = $request->only(array_keys($rules));
+        $objData['song_id'] = explode(",", $objData['song_id']);
+        try {
+            $res = SongModel::query()
+                ->where('user_id',$objData['user_id'])
+                ->whereIn('song_id',$objData['song_id'])
+                ->delete();
+
             Util::ApiResponse($res, true, 0, '取消收藏成功');
         } catch (\Exception $e) {
             Util::ApiResponse([], false, 0, Util::getExceptionMessage($e));
@@ -76,10 +104,14 @@ class SongController extends Controller
             'user_id'   =>  'int',
             'limit'     =>  'int',
             'skip'      =>  'int',
+            'field_name' =>  '',
+            'order'      =>  '',
         ];
         $objData = $request->only(array_keys($rules));
         $limit = Util::issetValue($objData,'limit',1000);
         $skip = Util::issetValue($objData,'skip',0);
+        $field_name = Util::issetValue($objData,'field_name','updated_at');
+        $order = Util::issetValue($objData,'order',0);
         try {
             $res = SongModel::query()
                 ->select(
@@ -90,10 +122,11 @@ class SongController extends Controller
                     'user_id',
                     'artist_name',
                     'st',
+                    'pl',
                     'picUrl'
                 )
                 ->where('user_id',$objData['user_id'])
-                ->orderBy('updated_at','desc');
+                ->orderBy($field_name,$order?"asc":"desc");
             $count = $res->count();
             $res = $res->skip($skip)
                 ->take($limit)
