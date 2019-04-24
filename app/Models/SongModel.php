@@ -15,6 +15,7 @@ class SongModel extends Model
         'song_name',
         'st',
         'pl',
+        'dt',
         'picUrl',
     ];
 

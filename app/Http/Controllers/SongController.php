@@ -23,6 +23,7 @@ class SongController extends Controller
             'song_name' => 'string',
             'st' => 'int',
             'pl' => 'int',
+            'dt' => 'int',
             'picUrl' => 'string'
         ];
         $objData = $request->only(array_keys($rules));
@@ -123,6 +124,7 @@ class SongController extends Controller
                     'artist_name',
                     'st',
                     'pl',
+                    'dt',
                     'picUrl'
                 )
                 ->where('user_id',$objData['user_id'])

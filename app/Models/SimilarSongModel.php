@@ -16,6 +16,7 @@ class SimilarSongModel extends Model
         'song_name',
         'st',
         'pl',
+        'dt',
         'picUrl',
     ];
 
@@ -34,6 +35,7 @@ class SimilarSongModel extends Model
                 'artist_name',
                 'st',
                 'pl',
+                'dt',
                 'picUrl'
             )
             ->where('user_id',$objData['user_id']);
@@ -160,6 +162,7 @@ class SimilarSongModel extends Model
                     'song_name' => $similar_songs[$i]['name'],
                     'st' => $similar_privileges[$i]['st'],
                     'pl' => $similar_privileges[$i]['pl'],
+                    'dt' => $similar_songs[$i]['dt'],
                     'picUrl' => $similar_songs[$i]['al']['picUrl'],
                 ];
                 self::create($temp);
